@@ -1,0 +1,81 @@
+import os
+import librosa
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import classification_report
+
+
+
+# wav_url = "https://raw.githubusercontent.com/adrianagaler/Snoring-Detection/master/Snoring_Dataset_%4016000/snoring/1_0.wav"
+# response = requests.get(wav_url)
+# if response.status_code == 200:
+#     y, sr = sf.read(io.BytesIO(response.content))  # Read the WAV file
+#     y_new = librosa.resample(y, orig_sr=sr, target_sr=8000) #resampled y
+#     sr_new=8000 #new sampling rate
+#     print("Original Audio Shape:", y.shape)
+#     print("Resampled Audio Shape:", y_new.shape)
+# else:
+#     raise Exception("Failed to download the audio file")
+# mfccs = librosa.feature.mfcc(y=y_new, sr=sr_new, n_mfcc=13)
+# print(mfccs)
+# print("MFCC Shape:", mfccs.shape)
+
+# 加载数据
+def load_audio_features(audio_files, labels):
+    features = []
+    for file in audio_files:
+        y, sr = librosa.load(file, sr=None)  # 读音频？
+        mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)  # 提取MFCC 这块还不是很确定
+        mfccs_mean = np.mean(mfccs, axis=1)  # 计算均值，变成一维度向量
+        features.append(mfccs_mean)
+    return np.array(features), np.array(labels)
+
+# 打鼾or非打鼾音频文件
+snore_files = [
+    r"C:\Users\xuany\Desktop\Snoring_data\1_0.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\1_1.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\1_10.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\1_100.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\1_102.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\1_103.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\1_104.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\1_105.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\1_106.wav",
+]
+
+non_snore_files = [
+    r"C:\Users\xuany\Desktop\Snoring_data\0_0.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_1.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_10.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_11.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_100.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_102.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_103.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_104.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_105.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_106.wav",
+    r"C:\Users\xuany\Desktop\Snoring_data\0_107.wav",
+
+]
+
+# 数据集
+audio_files = snore_files + non_snore_files
+labels = [1] * len(snore_files) + [0] * len(non_snore_files)  # 1代表鼾声, 0代表非鼾声
+
+# 提特征
+X, y = load_audio_features(audio_files, labels)
+
+# 划分数据集
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 训练SVM
+clf = SVC(kernel="rbf", C=0.5, gamma="scale")  # RBF核适用于复杂数据
+clf.fit(X_train, y_train)
+
+# 预测
+y_pred = clf.predict(X_test)
+
+# 测评一下
+print(classification_report(y_test, y_pred, target_names=["Non-Snore", "Snore"]))
