@@ -32,6 +32,8 @@ for i in range(1, 101):
     response = requests.get(url)
     if response.status_code == 200:
         y, sr = sf.read(io.BytesIO(response.content))  # Read the WAV file
+        if len(y.shape) == 2:  # Check if it's stereo
+            y = librosa.to_mono(y.T)  # Convert to mono
         y_new = librosa.resample(y, orig_sr=sr, target_sr=8000)  # resampled y
         sr_new = 8000  # new sampling rate
     else:

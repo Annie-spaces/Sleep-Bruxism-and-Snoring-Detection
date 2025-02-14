@@ -23,6 +23,7 @@
 # import librosa
 # import io
 # import soundfile as sf
+# import numpy as np
 # wav_url = "https://raw.githubusercontent.com/adrianagaler/Snoring-Detection/master/Snoring_Dataset_%4016000/snoring/1_0.wav"
 # response = requests.get(wav_url)
 # if response.status_code == 200:
@@ -31,7 +32,19 @@
 # else:
 #     raise Exception("Failed to download the audio file")
 # mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
+# average_mfcc = np.mean(mfccs, axis=1)
 # print(mfccs)
+# print(average_mfcc)
+# import numpy as np
+# import matplotlib.pyplot as plt
+# plt.figure(figsize=(10, 4))
+# librosa.display.specshow(mfccs, x_axis="time", sr=sr)
+# plt.colorbar()
+# plt.title("MFCC Features")
+# plt.xlabel("Time")
+# plt.ylabel("MFCC Coefficients")
+# plt.show()
+# print("MFCC Shape:", mfccs.shape)  # (Number of MFCCs, Time Frames)
 
 #verison 3, online url, resampled frame
 import requests
@@ -92,7 +105,7 @@ import soundfile as sf
 # print('no_snoring_MFCCs')
 # print( no_snoring_MFCCs)
 
-#version 5
+# #version 5
 import numpy as np
 snoring_MFCCs = np.empty((0, 13))
 for i in range(1, 3):
@@ -129,7 +142,5 @@ print('snoring_MFCCs')
 print(snoring_MFCCs)
 print('no_snoring_MFCCs')
 print( no_snoring_MFCCs)
-
-
 
 
