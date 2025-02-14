@@ -73,6 +73,7 @@ for i in range(1, 10):
     MFCC_list=np.vstack([MFCC_list, average_mfcc])
 print(MFCC_list)
 print("MFCC Shape:",MFCC_list.shape)
+print('hi?')
 
 
 
