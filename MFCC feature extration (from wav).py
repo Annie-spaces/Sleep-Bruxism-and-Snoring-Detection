@@ -50,6 +50,7 @@ else:
     raise Exception("Failed to download the audio file")
 mfccs = librosa.feature.mfcc(y=y_new, sr=sr_new, n_mfcc=13)
 print(mfccs)
+print("MFCC Shape:", mfccs.shape)
 
 
 
