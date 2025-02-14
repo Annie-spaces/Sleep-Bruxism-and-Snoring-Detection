@@ -91,7 +91,7 @@ print('snoring_MFCCs')
 print(snoring_MFCCs)
 print('no_snoring_MFCCs')
 print( no_snoring_MFCCs)
-print('bye')
+
 
 
 
