@@ -6,3 +6,9 @@ H: learned to use github together with pycharm
   then make a new file over here again, see if you can pull it to your local computer, and then make changes
   finally delete those two files, see if you can delete them on github
   video that helped(https://www.youtube.com/watch?v=sS7OOytmDcI)
+
+H: How to use github (and make changes to the repositories) on raspberry pie
+  git clone url
+  git add --all
+  git commit -m "message you want to add"
+  git push -u origin master
