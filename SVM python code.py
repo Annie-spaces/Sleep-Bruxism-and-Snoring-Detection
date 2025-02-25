@@ -88,7 +88,7 @@
 # # 测评一下
 # print(classification_report(y_test, y_pred, target_names=["Non-Snore", "Snore"]))
 
-# Adding zero crossing rate
+# # Adding zero crossing rate
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report
@@ -144,17 +144,12 @@ print('no_snoring_features')
 print( no_snoring_features, 'shape is', no_snoring_features.shape)
 
 X=np.vstack([snoring_features,no_snoring_features])
-
-# labels = [1] * 100 + [0] * 100
-labels= [1]*100+[0]*100
+labels= [1]*50+[0]*50+ [1]*50+[0]*50
 
 print(labels)
  # 1代表鼾声, 0代表非鼾声
 y=np.array(labels)
-# 提特征
-# X, y = load_audio_features(audio_files, labels)
 
-# 划分数据集
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # 训练SVM
@@ -166,5 +161,4 @@ y_pred = clf.predict(X_test)
 
 # 测评一下
 print(classification_report(y_test, y_pred, target_names=["Non-Snore", "Snore"]))
-# #result of 30+30 dataset is 100%
-# #result of 100+100 dataset is 100%
+# # #result of 30+30 dataset is 100%
