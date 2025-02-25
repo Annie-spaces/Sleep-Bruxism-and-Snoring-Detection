@@ -5,7 +5,7 @@ import io
 import soundfile as sf
 import numpy as np
 snoring_MFCCs = np.empty((0, 13))
-for i in range(1, 3):=
+for i in range(1, 3):
     url = "https://raw.githubusercontent.com/adrianagaler/Snoring-Detection/master/Snoring_Dataset_%4016000/snoring/1_" + str(i) + ".wav"
     response = requests.get(url)
     if response.status_code == 200:
