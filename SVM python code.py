@@ -89,7 +89,8 @@ y_pred = clf.predict(X_test)
 # 测评一下
 print(classification_report(y_test, y_pred, target_names=["Non-Snore", "Snore"]))
 
-# # # Adding zero crossing rate
+
+# #  Adding zero crossing rate
 # from sklearn.model_selection import train_test_split
 # from sklearn.svm import SVC
 # from sklearn.metrics import classification_report
