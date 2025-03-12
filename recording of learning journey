@@ -13,3 +13,5 @@ H: How to use github (and make changes to the repositories) on raspberry pie
   git add --all
   git commit -m "message you want to add"
   git push -u origin master
+
+H: Added SSH key to github
