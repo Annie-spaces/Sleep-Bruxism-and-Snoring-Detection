@@ -14,4 +14,11 @@ H: How to use github (and make changes to the repositories) on raspberry pie
   git commit -m "message you want to add"
   git push -u origin master
 
-H: Added SSH key to github
+H: Added SSH key to github using ssh-keygen
+   git init
+   git remote add origin "copy from github ssh option"
+   git clone "ssh option"
+   git add .
+   git commit -m "say somthing about the changes"
+   git push original main
+   yeah! I can access github from raspberry pi now!
