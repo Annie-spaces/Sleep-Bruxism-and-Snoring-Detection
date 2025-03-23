@@ -22,3 +22,6 @@ H: Added SSH key to github using ssh-keygen
    git commit -m "say somthing about the changes"
    git push original main
    yeah! I can access github from raspberry pi now!
+
+H: moving a recorded file
+   cp file target_directory
