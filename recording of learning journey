@@ -25,3 +25,5 @@ H: Added SSH key to github using ssh-keygen
 
 H: moving a recorded file
    cp file target_directory
+
+H: logged into github from linux pycharm
