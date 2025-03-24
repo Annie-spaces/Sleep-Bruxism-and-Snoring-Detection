@@ -22,12 +22,12 @@ def extract_features(url):
         y, sr = sf.read(io.BytesIO(response.content))  # Read the WAV file
         if len(y.shape) == 2:  # Convert to mono if stereo
             y = librosa.to_mono(y.T)
-        y_new = librosa.resample(y, orig_sr=sr, target_sr=8000)  # Resample to 8kHz
+        y_new = librosa.resample(y, orig_sr=sr, target_sr=16000)  # Resample to 8kHz
 
         # Extract Features
-        mfccs = librosa.feature.mfcc(y=y_new, sr=8000, n_mfcc=13)  # 13 MFCCs
+        mfccs = librosa.feature.mfcc(y=y_new, sr=16000, n_mfcc=13, n_fft=400, hop_length=200) # 13 MFCCs
         avg_mfcc = np.mean(mfccs, axis=1)
-        zero_crossing_rate = librosa.feature.zero_crossing_rate(y=y_new, frame_length=2048, hop_length=512)
+        zero_crossing_rate = librosa.feature.zero_crossing_rate(y=y_new, frame_length=400, hop_length=200)
         avg_zero_crossing_rate = 10 * np.mean(zero_crossing_rate, axis=1)  # Scaled for uniformity
 
         # Combine Features
@@ -66,7 +66,7 @@ X = min_max.fit_transform(X)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 #Train & Evaluate SVM
-svm_clf = SVC(kernel="rbf", C=1.0, gamma="scale")
+svm_clf = SVC(kernel="rbf", C=0.6, gamma="scale")
 svm_clf.fit(X_train, y_train)
 y_pred_svm = svm_clf.predict(X_test)
 
@@ -74,7 +74,7 @@ print("🔹 SVM Classification Report:")
 print(classification_report(y_test, y_pred_svm))
 
 ####### Train & Evaluate Random Forest
-rf_clf = RandomForestClassifier(n_estimators=100, random_state=42) # Initialize Random Forest with 100 trees
+rf_clf = RandomForestClassifier(n_estimators=100, random_state=42, max_depth=9) # Initialize Random Forest with 100 trees
 rf_clf.fit(X_train, y_train)
 y_pred_rf = rf_clf.predict(X_test)# Make predictions on the test set
 

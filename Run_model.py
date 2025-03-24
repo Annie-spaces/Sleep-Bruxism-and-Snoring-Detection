@@ -19,8 +19,9 @@ meta_clf = joblib.load(r"C:\Users\lulu\PycharmProjects\Sleep-Bruxism-and-Snoring
 feature_importance = joblib.load("feature_importance.pkl")
 top_features = np.argsort(feature_importance)[-10:]
 
-def segment_and_extract_features(audio_path, sr=8000, clip_duration=1.0, step_duration=0.5):
+def segment_and_extract_features(audio_path, sr=16000, clip_duration=1.0, step_duration=0.5):
     y, orig_sr = librosa.load(audio_path, sr=None)
+    print("original sampling rate is,", orig_sr)
     y_resampled = librosa.resample(y, orig_sr=orig_sr, target_sr=sr)
 
     clip_len = int(sr * clip_duration)
@@ -30,10 +31,10 @@ def segment_and_extract_features(audio_path, sr=8000, clip_duration=1.0, step_du
     for start in range(0, len(y_resampled) - clip_len + 1, step_len):
         clip = y_resampled[start: start + clip_len]
 
-        mfccs = librosa.feature.mfcc(y=clip, sr=sr, n_mfcc=13)
+        mfccs = librosa.feature.mfcc(y=clip, sr=sr, n_mfcc=13, n_fft=400, hop_length=200)
         avg_mfcc = np.mean(mfccs, axis=1)
 
-        zcr = librosa.feature.zero_crossing_rate(clip)
+        zcr = librosa.feature.zero_crossing_rate(clip, frame_length=400, hop_length=200)
         avg_zcr = 10 * np.mean(zcr, axis=1)
 
         feature_vector = np.hstack([avg_mfcc, avg_zcr])
