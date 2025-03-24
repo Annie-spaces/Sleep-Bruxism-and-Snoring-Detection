@@ -37,20 +37,21 @@ def extract_features(url):
 
 
 # Load Snoring Dataset
+number_of_total_samples=500
 snoring_features = np.empty((0, 14))
-for i in range(500):  # 500 snoring samples
+for i in range(number_of_total_samples):  # 500 snoring samples
     url = f"https://raw.githubusercontent.com/adrianagaler/Snoring-Detection/master/Snoring_Dataset_%4016000/snoring/1_{i}.wav"
     snoring_features = np.vstack([snoring_features, extract_features(url)])
 
 # Load Non-Snoring Dataset
 no_snoring_features = np.empty((0, 14))
-for i in range(500):  # 500 non-snoring samples
+for i in range(number_of_total_samples):  # 500 non-snoring samples
     url = f"https://raw.githubusercontent.com/adrianagaler/Snoring-Detection/master/Snoring_Dataset_%4016000/no_snoring/0_{i}.wav"
     no_snoring_features = np.vstack([no_snoring_features, extract_features(url)])
 
 # Combine Data & Create Labels (1 = Snoring, 0 = Non-Snoring)
 X = np.vstack([snoring_features, no_snoring_features])
-y = np.array([1] * 500 + [0] * 500)  # Labels
+y = np.array([1] * number_of_total_samples + [0] * number_of_total_samples)  # Labels
 
 # setup training Dataset (80% Train, 20% Test)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)

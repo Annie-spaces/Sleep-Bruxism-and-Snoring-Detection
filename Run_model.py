@@ -9,9 +9,9 @@ print("目录下的所有文件:", os.listdir(os.getcwd()))
 # 加载训练好的模型
 
 # 指定完整路径
-svm_clf = joblib.load(r"C:\Users\xuany\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection-new\svm_model.pkl")
-rf_clf = joblib.load(r"C:\Users\xuany\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection-new\rf_model.pkl")
-meta_clf = joblib.load(r"C:\Users\xuany\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection-new\stacked_model.pkl")
+svm_clf = joblib.load(r"C:\Users\lulu\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection\svm_model.pkl")
+rf_clf = joblib.load(r"C:\Users\lulu\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection\rf_model.pkl")
+meta_clf = joblib.load(r"C:\Users\lulu\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection\stacked_model.pkl")
 
 
 # 加载特征重要性，并选择前 10 个最重要的特征
@@ -41,7 +41,7 @@ def segment_and_extract_features(audio_path, sr=8000, clip_duration=1.0, step_du
     return np.array(features)
 
 # 测试音频路径
-new_audio = "C:/Users/xuany/Desktop/snoring_test5.wav"
+new_audio = r"C:\Users\lulu\Downloads\one_wave.wav"
 
 # 切片并提取所有片段的特征
 clips_features = segment_and_extract_features(new_audio)  # shape: (num_clips, 14)
