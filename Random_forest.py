@@ -86,14 +86,20 @@ y_pred_svm_reduced = svm_clf_reduced.predict(X_test_reduced)
 print("\n🔹 SVM (Reduced Features) Classification Report:")
 print(classification_report(y_test, y_pred_svm_reduced))
 
-# ---- Stacking: Combine SVM & RF ----
-svm_preds = svm_clf.predict(X_test)
-rf_preds = rf_clf.predict(X_test)
-stacked_features = np.column_stack((svm_preds, rf_preds))
+# 用训练集做 stacking 特征
+svm_train_preds = svm_clf.predict(X_train)
+rf_train_preds = rf_clf.predict(X_train)
+stacked_train = np.column_stack((svm_train_preds, rf_train_preds))
 
 meta_clf = LogisticRegression()
-meta_clf.fit(stacked_features, y_test)
-final_preds = meta_clf.predict(stacked_features)
+meta_clf.fit(stacked_train, y_train)
+
+# 然后评估测试集
+svm_test_preds = svm_clf.predict(X_test)
+rf_test_preds = rf_clf.predict(X_test)
+stacked_test = np.column_stack((svm_test_preds, rf_test_preds))
+
+final_preds = meta_clf.predict(stacked_test)
 
 print("\n🔹 Stacked Model Classification Report:")
 print(classification_report(y_test, final_preds))
