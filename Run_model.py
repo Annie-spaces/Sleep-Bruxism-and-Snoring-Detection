@@ -3,6 +3,7 @@ import joblib
 import librosa
 import numpy as np
 import os
+from sklearn.preprocessing import MinMaxScaler
 print("当前工作目录:", os.getcwd())
 print("目录下的所有文件:", os.listdir(os.getcwd()))
 
@@ -38,6 +39,11 @@ def segment_and_extract_features(audio_path, sr=8000, clip_duration=1.0, step_du
         feature_vector = np.hstack([avg_mfcc, avg_zcr])
         features.append(feature_vector)
 
+    # normalization
+    features = np.array(features)
+    # features = features.reshape(1, -1)
+    min_max = MinMaxScaler()
+    features = min_max.fit_transform(features)
     return np.array(features)
 
 # 测试音频路径

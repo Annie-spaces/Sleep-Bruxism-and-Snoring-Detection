@@ -12,6 +12,7 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score
+from sklearn.preprocessing import MinMaxScaler
 
 ### Function to Extract Features (MFCC + Zero-Crossing Rate)
 def extract_features(url):
@@ -31,7 +32,9 @@ def extract_features(url):
 
         # Combine Features
         feature = np.hstack([avg_mfcc, avg_zero_crossing_rate])  # 14 Features
+
         return feature
+
     else:
         raise Exception(f"Failed to download: {url}")
 
@@ -52,6 +55,10 @@ for i in range(number_of_total_samples):  # 500 non-snoring samples
 # Combine Data & Create Labels (1 = Snoring, 0 = Non-Snoring)
 X = np.vstack([snoring_features, no_snoring_features])
 y = np.array([1] * number_of_total_samples + [0] * number_of_total_samples)  # Labels
+
+# feature normalization
+min_max = MinMaxScaler()
+X = min_max.fit_transform(X)
 
 # setup training Dataset (80% Train, 20% Test)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
