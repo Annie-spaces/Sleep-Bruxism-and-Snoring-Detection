@@ -44,7 +44,7 @@ def segment_and_extract_features(audio_path, sr=8000, clip_duration=1.0, step_du
     # features = features.reshape(1, -1)
     min_max = MinMaxScaler()
     features = min_max.fit_transform(features)
-    return np.array(features)
+    return np.array(features[:,[6,5,13,1,8,3,4,12,9]])
 
 # 测试音频路径
 new_audio = r"C:\Users\lulu\Downloads\one_wave.wav"
