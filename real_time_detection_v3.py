@@ -5,8 +5,11 @@ import pyaudio
 import sounddevice as sd
 import soundfile as sf
 
-svm_clf = joblib.load(r"C:\Users\lulu\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection\svm_model_v3.pkl")
-rf_clf = joblib.load(r"C:\Users\lulu\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection\rf_model_v3.pkl")
+# svm_clf = joblib.load(r"C:\Users\lulu\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection\svm_model_v3.pkl")
+# rf_clf = joblib.load(r"C:\Users\lulu\PycharmProjects\Sleep-Bruxism-and-Snoring-Detection\rf_model_v3.pkl")
+svm_clf = joblib.load(r"~/project1/Sleep-Bruxism-and-Snoring-Detection/ReadyForPaper/svm_model_v3.pkl")
+rf_clf = joblib.load(r"~/project1/Sleep-Bruxism-and-Snoring-Detection/ReadyForPaper/rf_model_v3.pkl")
+
 
 def extract_features(clip, sr):
     mfccs = librosa.feature.mfcc(y=clip, sr=sr, n_mfcc=13, n_fft=400, hop_length=200)
